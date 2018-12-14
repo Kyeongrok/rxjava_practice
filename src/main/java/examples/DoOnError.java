@@ -4,19 +4,21 @@ import io.reactivex.Flowable;
 import java.util.Arrays;
 
 public class DoOnError {
-
-    public void run5() {
-        Flowable.fromIterable(Arrays.asList(1, 2, 0))
-                .doOnComplete(() -> System.out.println("completed 5"))
+    public void run6() {
+        Flowable.fromIterable(Arrays.asList(1, 2, 0, 1))
+                .doOnComplete(() -> System.out.println("completed 6"))
                 .map(item -> {
                     return 10 / item;
                 })
-                .doOnNext(System.out::println)
-                .subscribe();
+                .doOnNext(item -> System.out.println("---next6---"))
+                .doOnError(throwable -> System.out.println("---error6---"))
+                .subscribe(item2-> System.out.println("subscribe:"+item2));
+        System.out.println("---------finish--------");
     }
 
     public static void main(String[] args) {
-        new DoOnError().run5();
+        DoOnError doOnError = new DoOnError();
+        doOnError.run6();
     }
 
 }
